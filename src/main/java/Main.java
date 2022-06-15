@@ -15,10 +15,12 @@ public class Main {
     public static void main(String[] args) {
         OptimaizeDetector optimaizeDetector = new OptimaizeDetector();
         LinguaDetector linguaDetector = new LinguaDetector();
+        CybozuDetector cybozuDetector = new CybozuDetector();
         for (String row : input) {
             System.out.println("Input string: " + row + "\n");
             optimaizeDetector.detect(row);
             linguaDetector.detect(row);
+            cybozuDetector.detect(row);
             System.out.println("===============\n");
         }
     }

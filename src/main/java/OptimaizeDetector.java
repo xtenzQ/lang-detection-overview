@@ -9,7 +9,7 @@ import com.optimaize.langdetect.text.CommonTextObjectFactories;
 import java.io.IOException;
 import java.util.List;
 
-public class OptimaizeDetector extends Detector {
+public class OptimaizeDetector extends AbstractDetector {
 
     private LanguageDetector languageDetector;
 

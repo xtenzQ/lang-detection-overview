@@ -4,7 +4,7 @@ import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 
 import java.util.Map;
 
-public class LinguaDetector extends Detector {
+public class LinguaDetector extends AbstractDetector {
 
     private LanguageDetector detector;
 
