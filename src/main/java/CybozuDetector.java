@@ -28,7 +28,7 @@ public class CybozuDetector extends AbstractDetector {
             abstractDetector.append(input);
             languages = abstractDetector.getProbabilities();
             long end = System.currentTimeMillis();
-            System.out.println("DEBUG: Logic A took " + (end - start) + " MilliSeconds");
+            System.out.println("Time: " + (end - start) + " MilliSeconds");
             System.out.println(languages.toString() + "\n");
         } catch (LangDetectException e) {
 

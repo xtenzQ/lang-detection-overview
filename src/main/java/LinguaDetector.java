@@ -18,7 +18,7 @@ public class LinguaDetector extends AbstractDetector {
         long start = System.currentTimeMillis();
         Map<Language, Double> languageMap = detector.computeLanguageConfidenceValues(input);
         long end = System.currentTimeMillis();
-        System.out.println("DEBUG: Logic A took " + (end - start) + " MilliSeconds");
+        System.out.println("Time: " + (end - start) + " MilliSeconds");
         System.out.println(languageMap + "\n");
     }
 }
