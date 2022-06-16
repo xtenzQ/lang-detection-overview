@@ -1,3 +1,5 @@
+package ru.rusetskii.lingua;
+
 import com.optimaize.langdetect.DetectedLanguage;
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
@@ -11,7 +13,7 @@ import java.util.List;
 
 public class OptimaizeDetector extends AbstractDetector {
 
-    private LanguageDetector languageDetector;
+    private final LanguageDetector languageDetector;
 
     public OptimaizeDetector() {
         List<LanguageProfile> languageProfiles;
@@ -26,10 +28,10 @@ public class OptimaizeDetector extends AbstractDetector {
     }
 
     @Override
-    public String[] detect(String input) {
+    public DetectionResult detect(String input) {
         long start = System.currentTimeMillis();
         List<DetectedLanguage> languages = languageDetector.getProbabilities(CommonTextObjectFactories.forDetectingOnLargeText().forText(input));
         long end = System.currentTimeMillis();
-        return new String[] { languages.toString(), String.valueOf(end - start)};
+        return new DetectionResult(languages.toString(), end - start);
     }
 }

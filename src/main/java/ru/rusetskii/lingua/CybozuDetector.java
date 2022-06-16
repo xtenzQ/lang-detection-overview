@@ -1,3 +1,5 @@
+package ru.rusetskii.lingua;
+
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
@@ -20,17 +22,17 @@ public class CybozuDetector extends AbstractDetector {
     }
 
     @Override
-    public String[] detect(String input) {
+    public DetectionResult detect(String input) {
         List<Language> languages;
         try {
             long start = System.currentTimeMillis();
             abstractDetector.append(input);
             languages = abstractDetector.getProbabilities();
             long end = System.currentTimeMillis();
-            return new String[] { languages.toString(), String.valueOf(end - start) };
+            return new DetectionResult(languages.toString(), end - start);
         } catch (LangDetectException e) {
 
         }
-        return new String[] {};
+        return new DetectionResult();
     }
 }
