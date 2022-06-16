@@ -19,10 +19,15 @@ public class FastTextDetector extends AbstractDetector {
         long start = System.currentTimeMillis();
         List<JFastText.ProbLabel> probLabel = jft.predictProba(input, 5);
         long end = System.currentTimeMillis();
-        String res = "";
-        for (JFastText.ProbLabel label : probLabel) {
-            res += label.label + " : " + String.format("%.09f", Math.exp(label.logProb)) + ", ";
-        }
+        String res = formatOutput(probLabel);
         return new DetectionResult(res, end - start);
+    }
+
+    private String formatOutput(List<JFastText.ProbLabel> input) {
+        String res = "";
+        for (JFastText.ProbLabel label : input) {
+            res += label.label + ":" + String.format("%.09f", Math.exp(label.logProb)) + ", ";
+        }
+        return res;
     }
 }
