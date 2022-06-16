@@ -1,10 +1,7 @@
 package ru.rusetskii.lingua;
 
 import net.steppschuh.markdowngenerator.table.Table;
-import ru.rusetskii.lingua.detector.CybozuDetector;
-import ru.rusetskii.lingua.detector.FastTextDetector;
-import ru.rusetskii.lingua.detector.LinguaDetector;
-import ru.rusetskii.lingua.detector.OptimaizeDetector;
+import ru.rusetskii.lingua.detector.*;
 import ru.rusetskii.lingua.model.DetectionResult;
 import ru.rusetskii.lingua.model.InputSentence;
 
@@ -27,23 +24,27 @@ public class Main {
         input.add(new InputSentence("Привет вітання", "uk", "ru"));
 
         Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
-                .addRow("Input text", "Input language", "Optimaize Detector", "ms", "Lingua Detector", "ms", "Cybozu Detector", "ms", "fastText Detector", "ms");
+                .addRow("Input text", "Input language", "Optimaize Detector", "ms", "Lingua Detector",
+                        "ms", "Cybozu Detector", "ms", "fastText Detector", "ms", "OpenNLP", "ms");
 
         OptimaizeDetector optimaizeDetector = new OptimaizeDetector();
         LinguaDetector linguaDetector = new LinguaDetector();
         CybozuDetector cybozuDetector = new CybozuDetector();
         FastTextDetector fastTextDetector = new FastTextDetector();
+        OpenNLPDetector openNLPDetector = new OpenNLPDetector();
 
         for (InputSentence sentence : input) {
             DetectionResult optimaizeResults = optimaizeDetector.detect(sentence.getSentence());
             DetectionResult linguaResults = linguaDetector.detect(sentence.getSentence());
             DetectionResult cybozyResults = cybozuDetector.detect(sentence.getSentence());
             DetectionResult fastTextResults = fastTextDetector.detect(sentence.getSentence());
+            DetectionResult openNLPResults = openNLPDetector.detect(sentence.getSentence());
             tableBuilder.addRow(sentence.getSentence(), sentence.printLanguages(),
                                 optimaizeResults.getResult(), optimaizeResults.getTime(),
                                 linguaResults.getResult(), linguaResults.getTime(),
                                 cybozyResults.getResult(), cybozyResults.getTime(),
-                                fastTextResults.getResult(), fastTextResults.getTime());
+                                fastTextResults.getResult(), fastTextResults.getTime(),
+                                openNLPResults.getResult(), openNLPResults.getTime());
         }
 
         System.out.println(tableBuilder.build());
