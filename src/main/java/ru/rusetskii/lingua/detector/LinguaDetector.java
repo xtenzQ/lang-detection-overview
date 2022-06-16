@@ -1,8 +1,9 @@
-package ru.rusetskii.lingua;
+package ru.rusetskii.lingua.detector;
 
 import com.github.pemistahl.lingua.api.Language;
 import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
+import ru.rusetskii.lingua.model.DetectionResult;
 
 import java.util.Map;
 import java.util.stream.Collectors;

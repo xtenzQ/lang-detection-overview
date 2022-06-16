@@ -1,6 +1,11 @@
 package ru.rusetskii.lingua;
 
 import net.steppschuh.markdowngenerator.table.Table;
+import ru.rusetskii.lingua.detector.CybozuDetector;
+import ru.rusetskii.lingua.detector.LinguaDetector;
+import ru.rusetskii.lingua.detector.OptimaizeDetector;
+import ru.rusetskii.lingua.model.DetectionResult;
+import ru.rusetskii.lingua.model.InputSentence;
 
 import java.util.ArrayList;
 import java.util.List;

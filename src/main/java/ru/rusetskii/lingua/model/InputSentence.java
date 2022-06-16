@@ -1,4 +1,4 @@
-package ru.rusetskii.lingua;
+package ru.rusetskii.lingua.model;
 
 import java.util.Arrays;
 

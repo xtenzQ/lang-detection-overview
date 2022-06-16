@@ -1,4 +1,4 @@
-package ru.rusetskii.lingua;
+package ru.rusetskii.lingua.detector;
 
 import com.optimaize.langdetect.DetectedLanguage;
 import com.optimaize.langdetect.LanguageDetector;
@@ -7,6 +7,7 @@ import com.optimaize.langdetect.ngram.NgramExtractors;
 import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.CommonTextObjectFactories;
+import ru.rusetskii.lingua.model.DetectionResult;
 
 import java.io.IOException;
 import java.util.List;
