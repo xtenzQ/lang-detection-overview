@@ -26,12 +26,10 @@ public class OptimaizeDetector extends AbstractDetector {
     }
 
     @Override
-    public void detect(String input) {
-        System.out.println("OptimaizeDetector:");
+    public String[] detect(String input) {
         long start = System.currentTimeMillis();
         List<DetectedLanguage> languages = languageDetector.getProbabilities(CommonTextObjectFactories.forDetectingOnLargeText().forText(input));
         long end = System.currentTimeMillis();
-        System.out.println("Time: " + (end - start) + " MilliSeconds");
-        System.out.println(languages + "\n");
+        return new String[] { languages.toString(), String.valueOf(end - start)};
     }
 }

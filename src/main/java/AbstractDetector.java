@@ -1,3 +1,3 @@
-abstract class AbstractDetector {
-    public abstract void detect(String input);
+abstract class  AbstractDetector {
+    public abstract String[] detect(String input);
 }

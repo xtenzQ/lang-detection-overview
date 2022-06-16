@@ -20,18 +20,17 @@ public class CybozuDetector extends AbstractDetector {
     }
 
     @Override
-    public void detect(String input) {
+    public String[] detect(String input) {
         List<Language> languages;
         try {
-            System.out.println("CybozuDetector:");
             long start = System.currentTimeMillis();
             abstractDetector.append(input);
             languages = abstractDetector.getProbabilities();
             long end = System.currentTimeMillis();
-            System.out.println("Time: " + (end - start) + " MilliSeconds");
-            System.out.println(languages.toString() + "\n");
+            return new String[] { languages.toString(), String.valueOf(end - start) };
         } catch (LangDetectException e) {
 
         }
+        return new String[] {};
     }
 }
