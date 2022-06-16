@@ -2,6 +2,7 @@ package ru.rusetskii.lingua;
 
 import net.steppschuh.markdowngenerator.table.Table;
 import ru.rusetskii.lingua.detector.CybozuDetector;
+import ru.rusetskii.lingua.detector.FastTextDetector;
 import ru.rusetskii.lingua.detector.LinguaDetector;
 import ru.rusetskii.lingua.detector.OptimaizeDetector;
 import ru.rusetskii.lingua.model.DetectionResult;
@@ -25,20 +26,24 @@ public class Main {
         input.add(new InputSentence("Скільки коштує iPhone 12?", "uk", "en"));
         input.add(new InputSentence("Привет вітання", "uk", "ru"));
 
-        Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT).addRow("Input text", "Input language", "Optimaize Detector", "ms", "Lingua Detector", "ms", "Cybozu Detector", "ms");
+        Table.Builder tableBuilder = new Table.Builder().withAlignments(Table.ALIGN_RIGHT, Table.ALIGN_LEFT)
+                .addRow("Input text", "Input language", "Optimaize Detector", "ms", "Lingua Detector", "ms", "Cybozu Detector", "ms", "fastText Detector", "ms");
 
         OptimaizeDetector optimaizeDetector = new OptimaizeDetector();
         LinguaDetector linguaDetector = new LinguaDetector();
         CybozuDetector cybozuDetector = new CybozuDetector();
+        FastTextDetector fastTextDetector = new FastTextDetector();
 
         for (InputSentence sentence : input) {
             DetectionResult optimaizeResults = optimaizeDetector.detect(sentence.getSentence());
             DetectionResult linguaResults = linguaDetector.detect(sentence.getSentence());
             DetectionResult cybozyResults = cybozuDetector.detect(sentence.getSentence());
+            DetectionResult fastTextResults = fastTextDetector.detect(sentence.getSentence());
             tableBuilder.addRow(sentence.getSentence(), sentence.printLanguages(),
                                 optimaizeResults.getResult(), optimaizeResults.getTime(),
                                 linguaResults.getResult(), linguaResults.getTime(),
-                                cybozyResults.getResult(), cybozyResults.getTime());
+                                cybozyResults.getResult(), cybozyResults.getTime(),
+                                fastTextResults.getResult(), fastTextResults.getTime());
         }
 
         System.out.println(tableBuilder.build());
