@@ -16,7 +16,6 @@ public class CybozuDetector extends AbstractDetector {
     public CybozuDetector() {
         try {
             DetectorFactory.loadProfile(new File(Detector.class.getResource("/profiles").toURI()));
-            detector = DetectorFactory.create();
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -26,6 +25,7 @@ public class CybozuDetector extends AbstractDetector {
     public DetectionResult detect(String input) {
         List<Language> languages;
         try {
+            detector = DetectorFactory.create();
             long start = System.currentTimeMillis();
             detector.append(input);
             languages = detector.getProbabilities();
