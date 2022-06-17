@@ -9,6 +9,8 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.rusetskii.lingua.Main.MAX_N;
+
 public class FastTextDetector extends AbstractDetector {
 
     public static final String EMPTY = "";
@@ -24,7 +26,7 @@ public class FastTextDetector extends AbstractDetector {
     @Override
     public DetectionResult detect(String input) {
         long start = System.currentTimeMillis();
-        List<JFastText.ProbLabel> probLabel = jft.predictProba(input, 5);
+        List<JFastText.ProbLabel> probLabel = jft.predictProba(input, MAX_N);
         long end = System.currentTimeMillis();
         List<LanguageEntity> languageList = convert(probLabel);
         return new DetectionResult(languageList, end - start);
@@ -37,7 +39,9 @@ public class FastTextDetector extends AbstractDetector {
             languageList.add(new LanguageEntity(prettifyLabel(language.label), prettifyDouble(Math.exp(language.logProb))));
         }
 
-        return languageList;
+        int max = Math.min(languageList.size(), MAX_N);
+
+        return languageList.subList(0, max);
     }
 
     private String prettifyLabel(String label) {

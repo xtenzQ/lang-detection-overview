@@ -1,10 +1,10 @@
 package ru.rusetskii.lingua.model;
 
-import java.util.Arrays;
+import org.jetbrains.annotations.NotNull;
 
-public class LanguageEntity {
-    private String language;
-    private double prob;
+public class LanguageEntity implements Comparable<LanguageEntity> {
+    private final String language;
+    private final double prob;
 
     public LanguageEntity(String language, double prob) {
         this.language = language;
@@ -22,5 +22,10 @@ public class LanguageEntity {
     @Override
     public String toString() {
         return this.language + ":" + this.prob;
+    }
+
+    @Override
+    public int compareTo(@NotNull LanguageEntity o) {
+        return Double.compare(this.prob, o.prob);
     }
 }

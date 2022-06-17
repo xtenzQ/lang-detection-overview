@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ru.rusetskii.lingua.Main.MAX_N;
+
 public class OptimaizeDetector extends AbstractDetector {
 
     private final LanguageDetector languageDetector;
@@ -46,6 +48,8 @@ public class OptimaizeDetector extends AbstractDetector {
             languageList.add(new LanguageEntity(language.getLocale().toString(), language.getProbability()));
         }
 
-        return languageList;
+        int max = Math.min(languageList.size(), MAX_N);
+
+        return languageList.subList(0, max);
     }
 }

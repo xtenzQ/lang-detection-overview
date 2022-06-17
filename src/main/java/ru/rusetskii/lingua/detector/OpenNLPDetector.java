@@ -1,6 +1,5 @@
 package ru.rusetskii.lingua.detector;
 
-import com.optimaize.langdetect.DetectedLanguage;
 import opennlp.tools.langdetect.*;
 import ru.rusetskii.lingua.model.DetectionResult;
 import ru.rusetskii.lingua.model.LanguageEntity;
@@ -9,17 +8,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static ru.rusetskii.lingua.Main.MAX_N;
 
 public class OpenNLPDetector extends AbstractDetector {
 
-    private LanguageDetectorME ld;
+    private final LanguageDetectorME ld;
 
     public OpenNLPDetector() {
         InputStream inputStream = getClass()
                 .getResourceAsStream("/langdetect-183.bin");
-        LanguageDetectorModel model = null;
+        LanguageDetectorModel model;
         try {
-            model = new LanguageDetectorModel(inputStream);
+            model = new LanguageDetectorModel(Objects.requireNonNull(inputStream));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -31,7 +33,7 @@ public class OpenNLPDetector extends AbstractDetector {
         long start = System.currentTimeMillis();
         Language[] languages = ld.predictLanguages(input);
         long end = System.currentTimeMillis();
-        List<LanguageEntity> languageList = convert(languages).subList(0, 5);
+        List<LanguageEntity> languageList = convert(languages);
         return new DetectionResult(languageList, end - start);
     }
 
@@ -42,6 +44,8 @@ public class OpenNLPDetector extends AbstractDetector {
             languageList.add(new LanguageEntity(language.getLang(), language.getConfidence()));
         }
 
-        return languageList;
+        int max = Math.min(languageList.size(), MAX_N);
+
+        return languageList.subList(0, max);
     }
 }

@@ -10,14 +10,15 @@ import ru.rusetskii.lingua.model.LanguageEntity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import static ru.rusetskii.lingua.Main.MAX_N;
 
 public class CybozuDetector extends AbstractDetector {
 
-    private Detector detector;
-
     public CybozuDetector() {
         try {
-            DetectorFactory.loadProfile(new File(Detector.class.getResource("/profiles").toURI()));
+            DetectorFactory.loadProfile(new File(Objects.requireNonNull(Detector.class.getResource("/profiles")).toURI()));
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -27,7 +28,7 @@ public class CybozuDetector extends AbstractDetector {
     public DetectionResult detect(String input) {
         List<Language> languages;
         try {
-            detector = DetectorFactory.create();
+            Detector detector = DetectorFactory.create();
             detector.append(input);
 
             long start = System.currentTimeMillis();
@@ -36,9 +37,8 @@ public class CybozuDetector extends AbstractDetector {
             List<LanguageEntity> languageList = convert(languages);
             return new DetectionResult(languageList, end - start);
         } catch (LangDetectException e) {
-
+            throw new RuntimeException(e);
         }
-        return new DetectionResult();
     }
 
     private List<LanguageEntity> convert(List<Language> languages) {
@@ -48,6 +48,8 @@ public class CybozuDetector extends AbstractDetector {
             languageList.add(new LanguageEntity(language.lang, language.prob));
         }
 
-        return languageList;
+        int max = Math.min(languageList.size(), MAX_N);
+
+        return languageList.subList(0, max);
     }
 }

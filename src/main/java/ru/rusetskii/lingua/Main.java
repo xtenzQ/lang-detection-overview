@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Main {
 
+    public static final int MAX_N = 5;
+
     private static final List<InputSentence> input = new ArrayList<>();
 
     public static void main(String[] args) {
