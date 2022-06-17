@@ -8,8 +8,10 @@ import com.optimaize.langdetect.profiles.LanguageProfile;
 import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.CommonTextObjectFactories;
 import ru.rusetskii.lingua.model.DetectionResult;
+import ru.rusetskii.lingua.model.LanguageEntity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OptimaizeDetector extends AbstractDetector {
@@ -33,6 +35,17 @@ public class OptimaizeDetector extends AbstractDetector {
         long start = System.currentTimeMillis();
         List<DetectedLanguage> languages = languageDetector.getProbabilities(CommonTextObjectFactories.forDetectingOnLargeText().forText(input));
         long end = System.currentTimeMillis();
-        return new DetectionResult(languages.toString(), end - start);
+        List<LanguageEntity> languageList = convert(languages);
+        return new DetectionResult(languageList, end - start);
+    }
+
+    private List<LanguageEntity> convert(List<DetectedLanguage> languages) {
+        List<LanguageEntity> languageList = new ArrayList<>();
+
+        for (DetectedLanguage language : languages) {
+            languageList.add(new LanguageEntity(language.getLocale().toString(), language.getProbability()));
+        }
+
+        return languageList;
     }
 }

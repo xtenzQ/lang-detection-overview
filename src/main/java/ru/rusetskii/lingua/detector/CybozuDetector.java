@@ -5,8 +5,10 @@ import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 import com.cybozu.labs.langdetect.Language;
 import ru.rusetskii.lingua.model.DetectionResult;
+import ru.rusetskii.lingua.model.LanguageEntity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CybozuDetector extends AbstractDetector {
@@ -26,14 +28,26 @@ public class CybozuDetector extends AbstractDetector {
         List<Language> languages;
         try {
             detector = DetectorFactory.create();
-            long start = System.currentTimeMillis();
             detector.append(input);
+
+            long start = System.currentTimeMillis();
             languages = detector.getProbabilities();
             long end = System.currentTimeMillis();
-            return new DetectionResult(languages.toString(), end - start);
+            List<LanguageEntity> languageList = convert(languages);
+            return new DetectionResult(languageList, end - start);
         } catch (LangDetectException e) {
 
         }
         return new DetectionResult();
+    }
+
+    private List<LanguageEntity> convert(List<Language> languages) {
+        List<LanguageEntity> languageList = new ArrayList<>();
+
+        for (Language language : languages) {
+            languageList.add(new LanguageEntity(language.lang, language.prob));
+        }
+
+        return languageList;
     }
 }

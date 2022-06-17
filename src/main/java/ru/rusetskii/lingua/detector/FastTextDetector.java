@@ -2,10 +2,17 @@ package ru.rusetskii.lingua.detector;
 
 import com.github.jfasttext.JFastText;
 import ru.rusetskii.lingua.model.DetectionResult;
+import ru.rusetskii.lingua.model.LanguageEntity;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FastTextDetector extends AbstractDetector {
+
+    public static final String EMPTY = "";
+    public static final String LABEL = "__label__";
 
     private final JFastText jft;
 
@@ -19,15 +26,25 @@ public class FastTextDetector extends AbstractDetector {
         long start = System.currentTimeMillis();
         List<JFastText.ProbLabel> probLabel = jft.predictProba(input, 5);
         long end = System.currentTimeMillis();
-        String res = formatOutput(probLabel);
-        return new DetectionResult(res, end - start);
+        List<LanguageEntity> languageList = convert(probLabel);
+        return new DetectionResult(languageList, end - start);
     }
 
-    private String formatOutput(List<JFastText.ProbLabel> input) {
-        String res = "";
-        for (JFastText.ProbLabel label : input) {
-            res += label.label + ":" + String.format("%.09f", Math.exp(label.logProb)) + ", ";
+    private List<LanguageEntity> convert(List<JFastText.ProbLabel> probLabel) {
+        List<LanguageEntity> languageList = new ArrayList<>();
+
+        for (JFastText.ProbLabel language : probLabel) {
+            languageList.add(new LanguageEntity(prettifyLabel(language.label), prettifyDouble(Math.exp(language.logProb))));
         }
-        return res;
+
+        return languageList;
+    }
+
+    private String prettifyLabel(String label) {
+        return label.replaceAll(LABEL, EMPTY);
+    }
+
+    private double prettifyDouble(double prob) {
+        return BigDecimal.valueOf(prob).setScale(9, RoundingMode.HALF_UP).doubleValue();
     }
 }

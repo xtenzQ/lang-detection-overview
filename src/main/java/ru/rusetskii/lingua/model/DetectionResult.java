@@ -1,15 +1,12 @@
 package ru.rusetskii.lingua.model;
 
-import static ru.rusetskii.lingua.Constants.*;
+import java.util.List;
 
 public class DetectionResult {
-    private String result;
+    private List<LanguageEntity> result;
     private long time;
 
-    public String getResult() {
-        for (String row : CLEAN_UP_REGEX) {
-            result = result.replaceAll(row, EMPTY);
-        }
+    public List<LanguageEntity> getResult() {
         return result;
     }
 
@@ -19,7 +16,7 @@ public class DetectionResult {
 
     public DetectionResult() { }
 
-    public DetectionResult(String result, long time) {
+    public DetectionResult(List<LanguageEntity> result, long time) {
         this.result = result;
         this.time = time;
     }

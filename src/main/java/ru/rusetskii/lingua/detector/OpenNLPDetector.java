@@ -1,10 +1,14 @@
 package ru.rusetskii.lingua.detector;
 
+import com.optimaize.langdetect.DetectedLanguage;
 import opennlp.tools.langdetect.*;
 import ru.rusetskii.lingua.model.DetectionResult;
+import ru.rusetskii.lingua.model.LanguageEntity;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpenNLPDetector extends AbstractDetector {
 
@@ -27,15 +31,17 @@ public class OpenNLPDetector extends AbstractDetector {
         long start = System.currentTimeMillis();
         Language[] languages = ld.predictLanguages(input);
         long end = System.currentTimeMillis();
-        String res = formatOutput(languages);
-        return new DetectionResult(res, end - start);
+        List<LanguageEntity> languageList = convert(languages).subList(0, 5);
+        return new DetectionResult(languageList, end - start);
     }
 
-    private String formatOutput(Language[] input) {
-        String res = "";
-        for (int i = 0; i < 5; i++) {
-            res += input[i].getLang() + ":" + input[i].getConfidence() + ", ";
+    private List<LanguageEntity> convert(Language[] languages) {
+        List<LanguageEntity> languageList = new ArrayList<>();
+
+        for (Language language : languages) {
+            languageList.add(new LanguageEntity(language.getLang(), language.getConfidence()));
         }
-        return res;
+
+        return languageList;
     }
 }

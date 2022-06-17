@@ -39,7 +39,7 @@ public class Main {
             DetectionResult cybozyResults = cybozuDetector.detect(sentence.getSentence());
             DetectionResult fastTextResults = fastTextDetector.detect(sentence.getSentence());
             DetectionResult openNLPResults = openNLPDetector.detect(sentence.getSentence());
-            tableBuilder.addRow(sentence.getSentence(), sentence.printLanguages(),
+            tableBuilder.addRow(sentence.getSentence(), sentence.getLanguages(),
                                 optimaizeResults.getResult(), optimaizeResults.getTime(),
                                 linguaResults.getResult(), linguaResults.getTime(),
                                 cybozyResults.getResult(), cybozyResults.getTime(),
